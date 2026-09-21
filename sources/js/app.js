@@ -6,7 +6,7 @@ const GetPersonajes = async () => {
     const request = await fetch (API_URL);
     const json_request = await request.json ();
     const personajes = await json_request.results;
-    return personajes;
+    return await personajes;
 }
 
 const GetEstados = async () => {
@@ -48,3 +48,28 @@ const MostrarFormularioPorEspecie = async () => {
 
 MostrarFormularioPorEspecie ();
 MostrarFormularioPorEstado ();
+
+const status_selector = document.querySelector ("#status_selector");
+const especie_selector = document.querySelector ("#selector_especie");
+
+const ActualizarPersonajes = async () => {
+    let personajes = await GetPersonajes ();
+    const status = status_selector.value;
+    const especie = especie_selector.value;
+    if (status != "Cualquiera"){
+        personajes = await personajes.filter ((item) => item.status == status);
+        console.log (personajes);
+    }
+    if (especie != "Cualquiera" ){
+        personajes = await personajes.filter ((item) => item.species == especie);
+        console.log (personajes);
+    }
+}
+
+status_selector.addEventListener ("change" , async (evt) => {
+    await ActualizarPersonajes ();
+})
+
+especie_selector.addEventListener ("change" , async (evt) => {
+    await ActualizarPersonajes ();
+})
