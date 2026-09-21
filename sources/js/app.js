@@ -62,14 +62,34 @@ const ActualizarPersonajes = async () => {
     }
     if (especie != "Cualquiera" ){
         personajes = await personajes.filter ((item) => item.species == especie);
-        console.log (personajes);
     }
+    return personajes;
+}
+
+const MostrarPersonajes = async () => {
+    const card_selector = document.querySelector ("#card_container");
+    const personajes_a_mostrar = await ActualizarPersonajes ();
+    card_selector.innerHTML = "";
+    for (const personaje of personajes_a_mostrar) {
+        card_selector.innerHTML += CrearHtml (personaje);
+    }
+    console.log ("Hecho...");
+}
+
+const CrearHtml = (personaje) => {
+    return `<div class = "card"> 
+        <img src = "${personaje.image}">
+        <h2> ${personaje.name} </h2>
+        <h2> ID: ${personaje.id} </h2>
+        <h3> Especie: ${personaje.species} </h3>
+        <h3> Status: ${personaje.status} </h3>
+    </div>`;
 }
 
 status_selector.addEventListener ("change" , async (evt) => {
-    await ActualizarPersonajes ();
+    await MostrarPersonajes ();
 })
 
 especie_selector.addEventListener ("change" , async (evt) => {
-    await ActualizarPersonajes ();
+    await MostrarPersonajes ();
 })
