@@ -51,17 +51,22 @@ MostrarFormularioPorEstado ();
 
 const status_selector = document.querySelector ("#status_selector");
 const especie_selector = document.querySelector ("#selector_especie");
+const id_selector = document.querySelector ("#id_input");
 
 const ActualizarPersonajes = async () => {
     let personajes = await GetPersonajes ();
     const status = status_selector.value;
     const especie = especie_selector.value;
+    const id = id_selector.value;
     if (status != "Cualquiera"){
         personajes = await personajes.filter ((item) => item.status == status);
         console.log (personajes);
     }
     if (especie != "Cualquiera" ){
         personajes = await personajes.filter ((item) => item.species == especie);
+    }
+    if (id.trim() !== "") {
+        personajes = personajes.filter((item) => item.id === Number(id));
     }
     return personajes;
 }
@@ -70,10 +75,15 @@ const MostrarPersonajes = async () => {
     const card_selector = document.querySelector ("#card_container");
     const personajes_a_mostrar = await ActualizarPersonajes ();
     card_selector.innerHTML = "";
-    for (const personaje of personajes_a_mostrar) {
-        card_selector.innerHTML += CrearHtml (personaje);
+    if (personajes_a_mostrar.length > 0){
+        for (const personaje of personajes_a_mostrar) {
+            card_selector.innerHTML += CrearHtml (personaje);
+        }
+        console.log ("Hecho...");
     }
-    console.log ("Hecho...");
+    else {
+        card_selector.innerHTML = "<h1> No se ha encontrado ningun personaje con los filtros propuestos </h1>"
+    }
 }
 
 const CrearHtml = (personaje) => {
@@ -93,3 +103,9 @@ status_selector.addEventListener ("change" , async (evt) => {
 especie_selector.addEventListener ("change" , async (evt) => {
     await MostrarPersonajes ();
 })
+
+id_selector.addEventListener ("change" , async (evt) => {
+    await MostrarPersonajes ();
+})
+
+MostrarPersonajes ();
