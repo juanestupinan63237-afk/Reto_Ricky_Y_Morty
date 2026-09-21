@@ -27,7 +27,15 @@ const GetEstados = async () => {
         return total;
     } 
     , []);
-    console.log (status_array);
+    return (status_array);
+}
+
+const MostrarFormularioPorEstado = async () => {
+    const status_array = await GetEstados ();
+    const container_form = document.querySelector ("#form_search");
+    container_form.innerHTML = `<select id=${"status_selector"} </select>`;
+    const container_select = document.querySelector ("#status_selector");
+    status_array.map ((item) => container_select.innerHTML += `<option value = ${item}> ${item} </option>`);
 }
 
 select.addEventListener ("change" , (evt) => {
@@ -35,7 +43,8 @@ select.addEventListener ("change" , (evt) => {
     if (opcion === "Busqueda_Por_Nombre"){
         MostrarFormularioPorNombre ();
     }
-    else {
-        console.log ("Funciona...");
+    else if (opcion === "Busqueda_Por_Estado") {
+        MostrarFormularioPorEstado ();
     }
+    else{console.log ("Funciona");}
 });
