@@ -1,0 +1,34 @@
+API_URL =  "https://rickandmortyapi.com/api/character";
+
+const select = document.querySelector ("#selector");
+
+const MostrarFormularioPorNombre = function ()  {
+    const container = document.querySelector ("#form_search");
+    container.innerHTML = `
+    <div id =form_name>
+        <label>Ingerse Nombre</label>
+        <input type="text" id="name_input"> 
+    </div>`;
+}
+
+const GetPersonajes = async () => {
+    const request = await fetch (API_URL);
+    const json_request = await request.json ();
+    const personajes = await json_request.results;
+    return personajes;
+}
+
+const GetEstados = async () => {
+    const personajes = await GetPersonajes ();
+
+}
+
+select.addEventListener ("change" , (evt) => {
+    let opcion = evt.currentTarget.selectedOptions[0].value;
+    if (opcion === "Busqueda_Por_Nombre"){
+        MostrarFormularioPorNombre ();
+    }
+    else {
+        console.log ("Funciona...");
+    }
+});
