@@ -8,15 +8,14 @@
 <body>
     <div class="main_container">
         <div class="input_container">
-            <h2>Seleccione Su Metodo De Busqueda: </h2>
-            <select id = "selector">
-                <option value = "none">Seleccione una opcion...</option>
-                <option value="Busqueda_Por_Nombre">Busqueda Por Nombre</option>
-                <option value = "Busqueda_Por_Estado">Busqueda Por Estado</option>
-                <option value = "Busqueda_Por_Especie">Busqueda Por Especie</option>
-            </select>
-            <div id="form_search" class="form_search">
+            <div id =form_name>
+                <label>Ingerse Nombre</label>
+                <input type="text" id="name_input"> 
             </div>
+            <div id="form_search" class="form_search">
+                <select id= "status_selector"></select>
+            </div>
+            <select id="selector_especie"></select>
         </div>
         <div class="card_container"></div>
     </div>

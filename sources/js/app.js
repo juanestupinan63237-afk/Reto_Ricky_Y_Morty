@@ -2,15 +2,6 @@ API_URL =  "https://rickandmortyapi.com/api/character";
 
 const select = document.querySelector ("#selector");
 
-const MostrarFormularioPorNombre = function ()  {
-    const container = document.querySelector ("#form_search");
-    container.innerHTML = `
-    <div id =form_name>
-        <label>Ingerse Nombre</label>
-        <input type="text" id="name_input"> 
-    </div>`;
-}
-
 const GetPersonajes = async () => {
     const request = await fetch (API_URL);
     const json_request = await request.json ();
@@ -32,19 +23,28 @@ const GetEstados = async () => {
 
 const MostrarFormularioPorEstado = async () => {
     const status_array = await GetEstados ();
-    const container_form = document.querySelector ("#form_search");
-    container_form.innerHTML = `<select id=${"status_selector"} </select>`;
+    status_array.unshift ("Cualquiera");
     const container_select = document.querySelector ("#status_selector");
     status_array.map ((item) => container_select.innerHTML += `<option value = ${item}> ${item} </option>`);
 }
 
-select.addEventListener ("change" , (evt) => {
-    let opcion = evt.currentTarget.selectedOptions[0].value;
-    if (opcion === "Busqueda_Por_Nombre"){
-        MostrarFormularioPorNombre ();
-    }
-    else if (opcion === "Busqueda_Por_Estado") {
-        MostrarFormularioPorEstado ();
-    }
-    else{console.log ("Funciona");}
-});
+const GetEspecies = async () => {
+    const personajes = await GetPersonajes ();
+    const array_especies = personajes.map (personaje => personaje.species).reduce ((total , especie) => {
+        if (!(total.includes (especie))){
+            total.push (especie);
+        };
+        return total;
+    } , []);
+    return (array_especies);
+}
+
+const MostrarFormularioPorEspecie = async () => {
+    const array_especies = await GetEspecies ();
+    array_especies.unshift ("Cualquiera")
+    const container_select = document.querySelector ("#selector_especie");
+    array_especies.map ((especie) => container_select.innerHTML += `<option value = ${especie}> ${especie} </option>`);
+}
+
+MostrarFormularioPorEspecie ();
+MostrarFormularioPorEstado ();
