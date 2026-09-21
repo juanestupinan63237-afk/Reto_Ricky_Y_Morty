@@ -20,7 +20,14 @@ const GetPersonajes = async () => {
 
 const GetEstados = async () => {
     const personajes = await GetPersonajes ();
-
+    const status_array = personajes.map(actual => actual.status).reduce ((total , item) => {
+        if (!(total.some ((t) => {return t === item})) ){
+            total.push (item);
+        }
+        return total;
+    } 
+    , []);
+    console.log (status_array);
 }
 
 select.addEventListener ("change" , (evt) => {
